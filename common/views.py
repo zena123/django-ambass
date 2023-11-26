@@ -19,12 +19,15 @@ class RegisterView(APIView):
         return Response(serializer.data)
 
 
-# class LoginView(APIView):
-#
-#     def post(self, request):
-#         email = request.data['email']
-#         password = request.data['password']
-#         user = User.objects.filter(email=email).first()
-#
-#         if not user:
-#             raise exceptions.A
+class LoginView(APIView):
+
+    def post(self, request):
+        email = request.data['email']
+        password = request.data['password']
+        user = User.objects.filter(email=email).first()
+
+        if not user:
+            raise exceptions.APIException("User not found!")
+        if not user.check_password(password):
+            raise exceptions.APIException("incorrect password")
+        return Response(UserSerializer(user).data)
