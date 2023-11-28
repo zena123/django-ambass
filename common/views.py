@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from core.models import User
+from .authentication import JWTAuthentication
 from .serializers import UserSerializer
 
 
@@ -30,4 +31,24 @@ class LoginView(APIView):
             raise exceptions.APIException("User not found!")
         if not user.check_password(password):
             raise exceptions.APIException("incorrect password")
-        return Response(UserSerializer(user).data)
+
+        jwt_authentication = JWTAuthentication()
+        token = jwt_authentication.generate_jwt(user.id)
+        """
+        we need to return an http cookie because it's more secure than:
+        return Response({
+            'jwt': token
+        })
+        """
+        response = Response()
+        """
+        the only purpose of this cookie is to send it to the backend , and then  backend 
+        can only validate it.
+        the front won't get this cookie till we add sth 
+        """
+
+        response.set_cookie(key="jwt", value=token, httponly=True)
+        response.data = {
+            "message": "success message!"
+        }
+        return response
