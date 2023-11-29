@@ -32,8 +32,7 @@ class LoginView(APIView):
         if not user.check_password(password):
             raise exceptions.APIException("incorrect password")
 
-        jwt_authentication = JWTAuthentication()
-        token = jwt_authentication.generate_jwt(user.id)
+        token = JWTAuthentication.generate_jwt(user.id)
         """
         we need to return an http cookie because it's more secure than:
         return Response({
