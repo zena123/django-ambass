@@ -1,4 +1,5 @@
 from rest_framework import exceptions
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -31,8 +32,8 @@ class LoginView(APIView):
             raise exceptions.APIException("User not found!")
         if not user.check_password(password):
             raise exceptions.APIException("incorrect password")
-
-        token = JWTAuthentication.generate_jwt(user.id)
+        id = user.id
+        token = JWTAuthentication.generate_jwt(id=id)
         """
         we need to return an http cookie because it's more secure than:
         return Response({
@@ -51,3 +52,11 @@ class LoginView(APIView):
             "message": "success message!"
         }
         return response
+
+
+class UserAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response(UserSerializer(request.user).data)
