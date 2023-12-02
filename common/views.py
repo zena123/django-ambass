@@ -60,3 +60,16 @@ class UserAPIView(APIView):
 
     def get(self, request):
         return Response(UserSerializer(request.user).data)
+
+
+class LogOutView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, _):  # we removed request parameter
+        response = Response()
+        response.delete_cookie(key='jwt')
+        response.data = {
+            "message": "success logout"
+        }
+        return response
