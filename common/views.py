@@ -73,3 +73,30 @@ class LogOutView(APIView):
             "message": "success logout"
         }
         return response
+
+
+class ProfileInfoAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        user = request.user
+        serializer = UserSerializer(user, request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+
+class ProfilePasswordAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        user = request.user
+        data = request.data
+        if data['password'] != data['confirm_password']:
+            raise exceptions.APIException("passwords don't match")
+
+        user.set_password(data['password'])
+        user.save()
+        return Response(UserSerializer(user).data)

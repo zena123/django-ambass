@@ -4,6 +4,8 @@ from .views import (
     LoginView,
     UserAPIView,
     LogOutView,
+    ProfileInfoAPIView,
+    ProfilePasswordAPIView
 )
 
 urlpatterns = [
@@ -11,5 +13,8 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name="login"),
     path('user/', UserAPIView.as_view(), name="user"),
     path('logout/', LogOutView.as_view(), name='logout'),
+    path('users/info/', ProfileInfoAPIView.as_view(), name='profile'),
+    path('users/password/', ProfilePasswordAPIView.as_view(), name="password")
+
 
 ]
