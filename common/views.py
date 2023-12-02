@@ -1,4 +1,5 @@
 from rest_framework import exceptions
+from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -100,3 +101,10 @@ class ProfilePasswordAPIView(APIView):
         user.set_password(data['password'])
         user.save()
         return Response(UserSerializer(user).data)
+
+
+"""
+we can add the authentications as a mixin rather than just rewriting them in every view"""
+
+
+

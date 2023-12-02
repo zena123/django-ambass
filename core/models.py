@@ -49,3 +49,10 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = UserManager()
+
+
+class Product(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    image = models.CharField(max_length=250)  # just ex
+    price = models.DecimalField(max_digits=10, decimal_places=2)
