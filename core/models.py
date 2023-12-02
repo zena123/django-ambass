@@ -56,3 +56,39 @@ class Product(models.Model):
     description = models.TextField()
     image = models.CharField(max_length=250)  # just ex
     price = models.DecimalField(max_digits=10, decimal_places=2)
+
+
+class Link(models.Model):
+    code = models.CharField(max_length=200)
+    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name="links")
+    products = models.ManyToManyField('Product', )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Order(models.Model):
+    transaction_id = models.CharField(max_length=250, null=True)
+    user = models.ForeignKey('User', null=True, on_delete=models.SET_NULL)
+    code = models.CharField(max_length=250)
+    ambassador_email = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=250)
+    last_name = models.CharField(max_length=250)
+    email = models.CharField(max_length=250)
+    address = models.CharField(max_length=250, null=True)
+    city = models.CharField(max_length=250, null=True)
+    country = models.CharField(max_length=250, null=True)
+    zip = models.CharField(max_length=250, null=True)
+    complete = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name="order_items")
+    product_title = models.CharField(max_length=250)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.IntegerField()
+    admin_revenue = models.DecimalField(max_digits=10, decimal_places=2)
+    ambassador_revenue = models.DecimalField(max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
