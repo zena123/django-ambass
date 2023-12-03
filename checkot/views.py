@@ -1,5 +1,5 @@
 import decimal
-
+import stripe
 from django.db import transaction
 from django.shortcuts import render
 from rest_framework import exceptions
@@ -24,6 +24,7 @@ class OrderAPIView(APIView):
         link = Link.objects.filter(code=data['code']).first()
         if not link:
             raise exceptions.APIException("invalid code")
+
         try:
             order = Order()
             order.code = link.code
@@ -37,6 +38,7 @@ class OrderAPIView(APIView):
             order.city = data['city']
             order.zip = data['zip']
             order.save()
+            line_items = []
             for item in data['products']:
                 product = Product.objects.filter(pk=item['product_id']).first()
                 quantity = decimal.Decimal(item['quantity'])
@@ -48,12 +50,29 @@ class OrderAPIView(APIView):
                 order_item.ambassador_revenue = decimal.Decimal(.1) * product.price * quantity
                 order_item.admin_revenue = decimal.Decimal(.9) * product.price * quantity
                 order_item.save()
-            return Response(
-                {"message": "success!"})
+                line_items.append({
+                    'name': product.title,
+                    'description': product.description,
+                    'images': [
+                        product.image
+                    ],
+                    'amount': int(100 * product.price),
+                    'currency': 'usd',
+                    'quantity': quantity,
+                }
+                )
+
+            source = stripe.checkout.Session.create(
+                success_url="http://localhost:5000/success?source={CHECKOUT_SESSION_ID}",
+                cancel_url="http://localhost:5000/error",
+                payment_methos_types='[card]',
+                line_items=line_items,
+            )
+            order.transaction_id = source['id']
+            order.save()
+            return Response(source)
         except Exception:
             transaction.rollback()
 
         return Response(
             {"message": "error occurred!"})
-
-
