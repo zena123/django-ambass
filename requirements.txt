@@ -6,3 +6,4 @@ django-cors-headers==3.7.0
 PyJWT==2.0.1
 Faker==6.6.1
 stripe==2.56.0
+mailhog==0.1.0

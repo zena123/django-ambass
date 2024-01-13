@@ -82,6 +82,20 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    @property
+    def name(self):
+        return self.first_name + ' ' + self.last_name
+
+    @property
+    def ambassador_revenue(self):
+        items = OrderItem.objects.filter(pk=self.pk)
+        return sum(i.ambassador_revenue for i in items)
+
+    @property
+    def admin_revenue(self):
+        items = OrderItem.objects.filter(pk=self.pk)
+        return sum(i.admin_revenue for i in items)
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name="order_items")

@@ -1,5 +1,6 @@
 import decimal
 import stripe
+from django.core.mail import send_mail
 from django.db import transaction
 from django.shortcuts import render
 from rest_framework import exceptions
@@ -76,3 +77,32 @@ class OrderAPIView(APIView):
 
         return Response(
             {"message": "error occurred!"})
+
+
+class OrderConfirmAPIView(APIView):
+    def post(self, request):
+        order = Order.objects.filter(transaction_id=request.data['source']).first()
+        if not order:
+            raise exceptions.APIException("order not found")
+
+        order.complete = 1
+        order.save()
+
+        # admin email
+        send_mail(
+            subject="An order has been completed",
+            message="Order # " + str(order.id)+ " with a total of $ " + str(order.admin_revenue) + " has been completed",
+            from_email="z@gmail.com",
+            recipient_list=["test@gmail.com"]
+        )
+
+        send_mail(
+            subject="An order has been completed",
+            message="you have earned $" + str(order.admin_revenue) + "from the link # " + order.code,
+            from_email="z@gmail.com",
+            recipient_list=[order.ambassador_email]
+        )
+
+        return Response({
+            'message': "success"
+        })
