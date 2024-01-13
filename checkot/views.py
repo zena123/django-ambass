@@ -51,6 +51,13 @@ class OrderAPIView(APIView):
                 order_item.ambassador_revenue = decimal.Decimal(.1) * product.price * quantity
                 order_item.admin_revenue = decimal.Decimal(.9) * product.price * quantity
                 order_item.save()
+
+                """
+                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
+                """
+                stripe.api_key = "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"
+
+                # the data needed for stripe to build a checkout
                 line_items.append({
                     'name': product.title,
                     'description': product.description,
@@ -62,8 +69,9 @@ class OrderAPIView(APIView):
                     'quantity': quantity,
                 }
                 )
-
+                """port 5000: FE port, we need session id in order to confirm order"""
             source = stripe.checkout.Session.create(
+
                 success_url="http://localhost:5000/success?source={CHECKOUT_SESSION_ID}",
                 cancel_url="http://localhost:5000/error",
                 payment_methos_types='[card]',
@@ -91,11 +99,13 @@ class OrderConfirmAPIView(APIView):
         # admin email
         send_mail(
             subject="An order has been completed",
-            message="Order # " + str(order.id)+ " with a total of $ " + str(order.admin_revenue) + " has been completed",
+            message="Order # " + str(order.id) + " with a total of $ " + str(
+                order.admin_revenue) + " has been completed",
             from_email="z@gmail.com",
             recipient_list=["test@gmail.com"]
         )
 
+        # admin email
         send_mail(
             subject="An order has been completed",
             message="you have earned $" + str(order.admin_revenue) + "from the link # " + order.code,

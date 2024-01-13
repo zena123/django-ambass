@@ -139,7 +139,7 @@ AUTH_USER_MODEL = 'core.user'
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True  # TO ALLOW FRONT END TO GET COOKIES
 
-EMAIL_HOST = 'localhost' # replace with ip of your device
+EMAIL_HOST = 'localhost'  # replace with ip of your device
 EMAIL_PORT = '1025'
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
