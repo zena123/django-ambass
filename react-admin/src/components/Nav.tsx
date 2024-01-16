@@ -1,17 +1,25 @@
 import React from "react";
+import { User } from "./models/user";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
-const Nav = () =>{
+const Nav = (props:{user:User | null}) =>{
+    // const logout = async() =>{
+    //     await axios.post('logout/');
+    // }
     return(
         <header className="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
-            <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="#">Company name</a>
+            {/* <a classNameo"navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="#">Company name</a> */}
+            <Link to={'profile/'} className="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" >{props.user?.first_name} {props.user?.last_name}</Link>
+            <Link to={'login/'} className="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white"
+            onClick={async() => await axios.post('logout/')} >sign out</Link>
         
             <ul className="navbar-nav flex-row d-md-none">
             <li className="nav-item text-nowrap">
-                <button className="nav-link px-3 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSearch" aria-controls="navbarSearch" aria-expanded="false" aria-label="Toggle search">
-                <svg className="bi"><use xlinkHref="#search"/></svg>
-                </button>
+            
             </li>
             <li className="nav-item text-nowrap">
+            
             </li>
             </ul>
         
