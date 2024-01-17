@@ -15,7 +15,7 @@ const Login = () => {
     await axios.post("login/", {
       email,
       password   //since key and value are same => we can send like that
-    }); // the only way to get the cookies
+    }, {withCredentials:true}); // the only way to get the cookies
     setRedirect(true);
   }
   if(redirect){

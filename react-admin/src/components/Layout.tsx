@@ -12,7 +12,7 @@ const Layout = (props: any) => {
         ( 
             async () =>{
                 try {
-                const {data} = await axios.get('user/');
+                const {data} = await axios.get('user/', {withCredentials:true});
                 setUser(data);
                 } catch (e) {
                     setRedirect(true);
