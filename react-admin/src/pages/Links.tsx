@@ -3,17 +3,20 @@ import Layout from "../components/Layout";
 import axios from "axios";
 import { Link } from "../components/models/links";
 import { Table, TableBody, TableHead, TableRow, TableCell, TableFooter, TableContainer, TablePagination } from "@mui/material";
-import { link } from "fs";
+import { useParams } from 'react-router-dom';
 
 const Links = (props:any) =>{
+    const { id } = useParams();
     const [links, setLinks] = useState<Link[]>([]);
     const [page, setPage] = useState(0);
     const perPage = 10;
     useEffect( () =>{
         (
             async () =>{
-                const {data} = await axios.get(`users/${props.match.params.id}/links`, {withCredentials:true});
+                const {data} = await axios.get(`users/${id}/links`, {withCredentials:true});
                 setLinks(data);
+                console.log("hii");
+                console.log(data);
             }
 
         )();

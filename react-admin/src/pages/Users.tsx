@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import axios from "axios";
 import { User } from "../components/models/user";
-import { Table, TableBody, TableHead, TableRow, TableCell, TableFooter, TableContainer, TablePagination, Button } from "@mui/material";
+import { Table, TableBody, TableHead, TableRow, TableCell, TableFooter, TablePagination, Button } from "@mui/material";
 
 
 const Users = () =>{
