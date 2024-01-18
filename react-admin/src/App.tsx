@@ -4,6 +4,7 @@ import './App.css';
 import {BrowserRouter, Routes,Route} from 'react-router-dom'
 import Users from './pages/Users';
 import Login from './pages/Login';
+import Links from './pages/Links';
 import Register from './pages/Register';
 import { RedirectToUsers } from './components/RedirectToUsers';
 
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path={'/'} Component={RedirectToUsers} />
         <Route path= {'/users'}  Component={Users}></Route>
+        <Route path= {'/users/:id/links'}  Component={Links}></Route>
         <Route path={'/login'} Component={Login}></Route>
         <Route path={'/register'} Component={Register}></Route>
         </Routes>

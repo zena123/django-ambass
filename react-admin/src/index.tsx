@@ -7,7 +7,15 @@ import axios from 'axios';
 
 axios.defaults.baseURL = "http://localhost:8000/api/admin/" ;
 axios.defaults.withCredentials = true;
+const matchResult = document.cookie.match(/csrftoken=([^;]+)/);
 
+// Check if matchResult is not null before accessing its properties
+const csrftoken = matchResult ? matchResult[1] : null;
+
+// Include the CSRF token in the headers if it's not null
+if (csrftoken) {
+   axios.defaults.headers.common['X-CSRFToken'] = csrftoken;
+}
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
