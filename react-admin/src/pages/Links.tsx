@@ -15,8 +15,6 @@ const Links = (props:any) =>{
             async () =>{
                 const {data} = await axios.get(`users/${id}/links`, {withCredentials:true});
                 setLinks(data);
-                console.log("hii");
-                console.log(data);
             }
 
         )();

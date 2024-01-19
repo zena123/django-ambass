@@ -17,6 +17,12 @@ const Menu = () =>{
                 users
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink to={'/products'} className="nav-link d-flex align-items-center gap-2 active" aria-current="page">
+                <svg className="bi"><use xlinkHref="#house-fill"/></svg>
+                Products
+              </NavLink>
+            </li>
             </ul>
 
 

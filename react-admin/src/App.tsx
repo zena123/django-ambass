@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Links from './pages/Links';
 import Register from './pages/Register';
 import { RedirectToUsers } from './components/RedirectToUsers';
+import Products from './components/products/Products';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path= {'/users/:id/links'}  Component={Links}></Route>
         <Route path={'/login'} Component={Login}></Route>
         <Route path={'/register'} Component={Register}></Route>
+        <Route path='{/products}' Component={Products}></Route>
         </Routes>
       </BrowserRouter>
 
