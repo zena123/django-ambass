@@ -4,6 +4,7 @@ import axios from "axios";
 import Layout from "../Layout";
 import { Table, TableBody, TableHead, TableRow, TableCell, TableFooter, TablePagination, Button} from "@mui/material";
 
+
 const Products = () => {
     const [products, setProducts] = useState<Product []>([]);
     const [page, setPage] = useState(0);
@@ -24,6 +25,10 @@ const Products = () => {
     }}
     return (
         <Layout>
+            <div className="pt-3 pb-2 mb-3 border-bottom">
+                <Button href="products/create/" variant="contained" color="primary">Add</Button>
+
+            </div>
             <Table className="table table-striped table-sm">
             <TableHead>
                 <TableRow>

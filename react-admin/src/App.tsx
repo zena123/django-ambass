@@ -8,6 +8,7 @@ import Links from './pages/Links';
 import Register from './pages/Register';
 import { RedirectToUsers } from './components/RedirectToUsers';
 import Products from './components/products/Products';
+import ProductForm from './components/products/ProductForm';
 
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
         <Route path= {'/users/:id/links'}  Component={Links}></Route>
         <Route path={'/login'} Component={Login}></Route>
         <Route path={'/register'} Component={Register}></Route>
-        <Route path='{/products}' Component={Products}></Route>
+        <Route path={'/products'} Component={Products}></Route>
+        <Route path={'/products/create'} Component={ProductForm}></Route>
         </Routes>
       </BrowserRouter>
 
