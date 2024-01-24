@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import Layout from "../components/Layout"
 import { Order } from "../components/models/orders";
 import axios from "axios";
-import { Accordion, AccordionSummary } from "@mui/material";
+import { Accordion,
+     AccordionDetails, 
+     AccordionSummary,
+     Table,
+     TableHead,
+     TableRow,
+     TableCell, 
+     TableBody} from "@mui/material";
 
 const Orders = ()=> {
     const [orders, setOrders] = useState<Order []>( []);
@@ -18,12 +25,35 @@ const Orders = ()=> {
     return(
         <Layout>
             {orders.map(order =>{
-               return
-               (
+               return(
                 <Accordion key={order.id}>
                     <AccordionSummary >
                         {order.name} ${order.total}
                     </AccordionSummary>
+                    <AccordionDetails>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>#</TableCell>
+                                    <TableCell>Product Title</TableCell>
+                                    <TableCell>Price</TableCell>
+                                    <TableCell>Quantity</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {order.order_items.map(item => {
+                                    return(
+                                        <TableRow key={item.id}>
+                                            <TableCell>{item.id}</TableCell>
+                                            <TableCell>{item.product_title}</TableCell>
+                                            <TableCell>{item.price}</TableCell>
+                                            <TableCell>{item.quantity}</TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </AccordionDetails>
                 </Accordion>
                ) ;
             })}
